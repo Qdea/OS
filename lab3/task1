@@ -1,0 +1,9 @@
+#!/bin/bash
+
+date=$(date '+%d.%m.%y_%H:%M:%S')
+r_f=~/report
+t=~/test
+site=www.net_nikogo.ru
+mkdir $t && echo "directory test was created successfully" >> $r_f && touch $t/$date
+ping -c 1 $site 2> /dev/null || echo "$date Something goes wrong" >> $r_f
+

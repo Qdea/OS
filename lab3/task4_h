@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./task4_g&pid0=$!
+./task4_g&pid1=$!
+./task4_g&pid2=$!
+
+renice +10 -p $pid0
+at now + 1 minute <<< "kill ${pid2}"
+at now + 2 minute <<< "kill ${pid1}"
+at now + 3 minute <<< "kill ${pid0}"

@@ -1,0 +1,46 @@
+#!/bin/bash
+rm pipe
+mkfifo pipe
+ACT="+"
+pres=1
+res=1
+(tail -f pipe) |
+while true; do
+read line
+case $line in
+"+")
+ACT="$line"
+echo "Adding"
+;;
+\*)
+ACT="$line"
+echo "Multipling"
+;;
+"QUIT")
+echo "Going out"
+killall tail
+exit 1
+;;
+[0-9]*)
+case $ACT in
+'+')
+res=$(echo "${pres} + ${line}" | bc)
+pres=$res
+echo $res
+;;
+\*)
+res=$(echo "${pres} * ${line}" | bc)
+pres=$res
+echo $res
+;;
+*)
+>&2 echo "NOT INT"
+esac
+;;
+*)
+echo "NOT INT"
+killall tail
+exit
+;;
+esac
+done

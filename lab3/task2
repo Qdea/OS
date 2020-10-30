@@ -1,0 +1,4 @@
+#!/bin/bash
+
+at now + 1 minutes -f ./task1 2> /dev/null
+tail -n 0 -f ~/report
