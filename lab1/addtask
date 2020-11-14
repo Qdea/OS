@@ -1,0 +1,14 @@
+#!/bin/bash
+
+read file
+read cmd
+if [[ "$cmd" == "cut-first-row" ]]; then
+sed -i '1,1d' $file
+else if [[ "$cmd" == "add-first-row" ]]; then
+sed -i '1s/^/H\n/' $file
+else echo "Wrong command"
+fi
+fi
+
+
+
