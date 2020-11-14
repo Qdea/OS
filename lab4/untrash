@@ -1,0 +1,90 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]]
+then
+echo "Error of quantity of arguments"
+exit 1
+fi
+
+if [[ $1 == *"/"* ]]
+then
+echo "Filename can't contain path"
+exit 2
+fi
+
+tr="/home/.trash/"
+trLg="/home/.trash.log"
+
+[ -d $tr ] || {
+echo "directory .trash doesn't exist"
+exit 3
+}
+
+[ "$(ls -A $tr)" ] || {
+echo "dir .trash is empty"
+exit 4
+}
+
+[ -f $trLg ] || {
+echo ".trash.log doesn't exist"
+exit 5
+}
+
+[ -s $trLg ] || {
+echo ".trash.log is empty"
+exit 6
+}
+
+{
+grep -E "*$1" "$trLg" > tmp
+} || echo "There is no file with name $1 in trash"
+
+IFS=$'\n'
+
+for i in $(cat tmp)
+do
+nameOflink=$(echo $i | awk '{print $2}')
+path=$(echo $i | awk '{print $1}')
+nameOffile=$(echo $path | awk -F "/" '{print $NF}')
+
+while true; do
+read -p "Do you really want to recover file $path?(y if you want, n if you don't)" ans
+
+case $ans in
+[y]* )
+x=1
+break
+;;
+[n]* )
+x=0
+break
+;;
+* )
+echo "Please enter y or n"
+;;
+esac
+done
+
+if [[ $x == 1 ]]
+then
+cat $trLg | grep -v "${path} $nameOflink" > $trLg
+
+{
+ln "$tr$nameOflink" $path && echo "Done"
+} || {
+ln "$tr$nameOflink" "/home/$nameOffile" && echo "file was created in homedir"
+} || {
+while true; do
+echo "please rename your file"
+echo "enter new name"
+read newName
+ln "$tr$nameOflink" "/home/$newName" && echo "file with name $newName was created in homedir" && break
+done
+}
+
+rm "$tr$nameOflink"
+fi
+done
+
+rm tmp
+

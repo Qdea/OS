@@ -1,0 +1,36 @@
+#!/bin/bash
+if [[ $# -ne 1 ]]
+then
+echo "Wrong number of arguments"
+exit 1
+fi
+
+if [[ ! -f $1 ]]
+then
+echo "File does not exist"
+exit 2
+fi
+
+path="$PWD/$1"
+cd /home
+find ".trash" || {
+mkdir .trash
+echo "Dir trash was created successfully"
+}
+
+cd /home/.trash
+counter="$(ls -l | sort -nk 9 | tail -n 1 | awk '{print $9}')"
+counter=${counter:0:1}
+
+if [[ -z $counter ]]
+then counter=0
+fi
+
+counter=$((counter + 1))
+name="${counter}link$1"
+
+ln $path $name && {
+rm $path
+echo "${path} $name" >> /home/.trash.log
+echo "Done"
+}

@@ -1,0 +1,49 @@
+#!/bin/bash
+path="/home/user"
+date=$(date +'%F')
+date_seconds=$(date -d "$date" +'%s')
+
+lastBackup=$(ls $path | grep -E "Backup-[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}" | sort -n -r | head -n 1)
+lastdate=$(echo $lastBackup | sed "s/Backup-//")
+lastdate_seconds=$(date -d "$lastdate" +'%s')
+
+distinction=$((date_seconds - lastdate_seconds))
+days=$((distinction/60/60/24))
+
+[ -d "$path/source" ] || {
+echo "Directory $path/source does not exist"
+exit 1
+}
+
+if [[ "$days" -gt 7 || ! $lastBackup ]]
+then
+curBackup="$path/Backup-$date"
+mkdir $curBackup
+cp -r $path/source/* $curBackup
+arroffiles=$(ls $curBackup)
+echo -e "new backup directory was made: Backup-$date \nfiles : \n$arroffiles" >> $path/backup-report
+else
+for i in $(ls $path/source)
+do
+if [[ -f $path/$lastBackup/$i ]]
+then
+prevSize=$(wc -c $path/$lastBackup/$i | awk '{print $1}')
+newSize=$(wc -c $path/source/$i | awk '{print $1}')
+if [[ $prevSize != $newSize ]]
+then
+newName="${i}.$date"
+mv $path/$lastBackup/$i $path/$lastBackup/$newName
+cp $path/source/$i $path/$lastBackup
+echo "$newName $i" >> $path/changedFiles
+fi
+else
+cp $path/source/$i $path/$lastBackup
+echo $i >> $path/newFiles
+fi
+done
+echo "directory was updated: $lastBackup date: $date" >> $path/backup-report
+echo -e "new files: \n$(cat $path/newFiles)" >> $path/backup-report
+echo -e "changed files: \n$(cat $path/changedFiles)" >> $path/backup-report
+rm $path/changedFiles
+rm $path/newFiles
+fi
