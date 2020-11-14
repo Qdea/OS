@@ -6,24 +6,24 @@ then
 else
 	if [[ "$1" == "check" ]]
 	then
-		(find ~/labs/OS/lab4/.as_git -type d 2> /dev/null > /dev/null) || (mkdir ~/labs/OS/lab4/.as_git)
-		find ~/labs/OS/lab4/.as_git/$2 -type f 2> /dev/null > /dev/null
+		(find ~/lab4/.as_git -type d 2> /dev/null > /dev/null) || (mkdir ~/lab4/.as_git)
+		find ~/lab4/.as_git/$2 -type f 2> /dev/null > /dev/null
 
 		if [[ $? == "0" ]]
 		then
-			str=$(diff $2 ~/labs/OS/lab4/.as_git/$2)
+			str=$(diff $2 ~/lab4/.as_git/$2)
 
 			if [[ -z $str ]]
 			then
 				echo $str >> "$2"".log"
 			fi
 		else
-			cp $2 ~/labs/OS/lab4/.as_git/$2
+			cp $2 ~/lab4/.as_git/$2
 		fi
 	else
 		if [[ "$1" == "recover" ]]
 	     	then
-			(find ~/labs/OS/lab4/.as_git -type d 2> /dev/null > /dev/null)
+			(find ~/lab4/.as_git -type d 2> /dev/null > /dev/null)
 
 			if [[ $? == "1" ]]
 			then
@@ -31,7 +31,7 @@ else
 				exit 1
 			fi
 
-			find ~/labs/OS/lab4/.as_git/$2 -type f 2> /dev/null > /dev/null
+			find ~/lab4/.as_git/$2 -type f 2> /dev/null > /dev/null
 			
 
 			if [[ $? == "1" ]]
@@ -40,7 +40,7 @@ else
 				exit 1
 			else
 				rm $2
-				ln ~/labs/OS/lab4/.as_git/$2 "$2"".lnk"
+				ln ~/lab4/.as_git/$2 "$2"".lnk"
 			fi
 		else
 			echo "Incorrect command"
