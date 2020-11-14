@@ -36,15 +36,15 @@ exit 6
 }
 
 {
-grep -E "*$1" "$trLg" > tmp
+grep -E "$1" "$trLg" > tmp
 } || echo "There is no file with name $1 in trash"
 
 IFS=$'\n'
 
 for i in $(cat tmp)
 do
-nameOflink=$(echo $i | awk '{print $2}')
-path=$(echo $i | awk '{print $1}')
+nameOflink=$(echo $i | awk '{ if ($3=="") print $2; else print $3" "$4}')
+path=$(echo $i | awk '{ if ($3=="") print $1; else print $1" "$2}')
 nameOffile=$(echo $path | awk -F "/" '{print $NF}')
 
 while true; do
