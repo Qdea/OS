@@ -1,0 +1,2 @@
+#!/bin/bash
+ps -A -l | awk '{if ($2 == "R" && $7 > 20) print $4}'
