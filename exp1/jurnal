@@ -1,0 +1,3 @@
+#!/bin/bash
+
+dmesg | grep 'mem.bash' | tail -n 3 >> jurnal.log

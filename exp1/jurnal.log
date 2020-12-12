@@ -1,0 +1,6 @@
+[ 1229.160206] [ 1252]     0  1252   313958    64846  2142208   193567             0 mem.bash
+[ 1229.172830] Out of memory: Killed process 1252 (mem.bash) total-vm:1255832kB, anon-rss:259384kB, file-rss:0kB, shmem-rss:0kB, UID:0
+[ 1229.520463] oom_reaper: reaped process 1252 (mem.bash), now anon-rss:0kB, file-rss:0kB, shmem-rss:0kB
+[ 5940.050709] [ 1456]     0  1456   331878    84665  2289664   191669             0 mem.bash
+[ 5940.053353] Out of memory: Killed process 1456 (mem.bash) total-vm:1327512kB, anon-rss:338660kB, file-rss:0kB, shmem-rss:0kB, UID:0
+[ 5940.901696] oom_reaper: reaped process 1456 (mem.bash), now anon-rss:0kB, file-rss:0kB, shmem-rss:0kB

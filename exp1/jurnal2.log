@@ -1,0 +1,6 @@
+[ 1957.808354] [ 1998]     0  1998   193606    43477  1179648    94558             0 mem.bash
+[ 1957.844131] Out of memory: Killed process 1998 (mem.bash) total-vm:774424kB, anon-rss:173908kB, file-rss:0kB, shmem-rss:0kB, UID:0
+[ 1958.351717] oom_reaper: reaped process 1998 (mem.bash), now anon-rss:0kB, file-rss:0kB, shmem-rss:0kB
+[ 1957.805023] [ 1995]     0  1995   193286    43473  1179648    94246             0 mem2.bash
+[ 2571.177523] [ 1995]     0  1995   324807    80496  2236416   188704             0 mem2.bash
+[ 2571.204922] Out of memory: Killed process 1995 (mem2.bash) total-vm:1299228kB, anon-rss:321984kB, file-rss:0kB, shmem-rss:0kB, UID:0
