@@ -1,0 +1,10 @@
+mkdir LAB6
+cd LAB6
+sysinfo.bat
+mkdir TEST
+copy.bat
+copy collect.bat TEST/
+copy delete.bat TEST/
+cd TEST
+collect.bat
+delete.bat

@@ -1,0 +1,9 @@
+script2.bat
+net share temp="C:\%computername\Temp"
+schtasks /Create /SC ONCE /TN Task2 /TR copy2.bat /ST 15:58 
+schtasks /Query | find "Task2" 
+taskList 
+taskkill /IM copy2.bat 
+fc C:\Windows\explorer.exe C:\%computername\Temp\explorer.exe > diff.txt 
+type diff.txt 
+copy2.bat 
